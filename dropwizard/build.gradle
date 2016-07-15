@@ -1,0 +1,19 @@
+apply plugin: 'application'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+  compile "io.dropwizard:dropwizard-core:0.9.3"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.14'
+}
+
+mainClassName = "com.alex.listings.HelloWorldApplication"
+
+run {
+    args 'server', 'example.yml'
+}
