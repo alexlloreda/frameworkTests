@@ -1,8 +1,10 @@
 package com.alex.listings;
 
 import io.dropwizard.Application;
+import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import org.skife.jdbi.v2.DBI;
 
 /**
  *
@@ -31,6 +33,9 @@ public class HelloWorldApplication extends Application<HelloWorldConfig> {
      */
     @Override
     public void run(HelloWorldConfig config, Environment env) {
+        final DBIFactory factory = new DBIFactory();
+        final DBI jdbi = factory.build(env, config.getDataSourceFactory(), "postgresql");
+
         env.jersey().register(new HelloWorldResource(config.getTemplate(), config.getDefaultName()));
         env.healthChecks().register("template", new TemplateHealthCheck(config.getTemplate()));
     }

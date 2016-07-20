@@ -5,7 +5,8 @@ repositories {
 }
 
 dependencies {
-  compile "io.dropwizard:dropwizard-core:0.9.3"
+  compile "io.dropwizard:dropwizard-core:${dropwizard_version}"
+    compile "io.dropwizard:dropwizard-jdbi:${dropwizard_version}"
 }
 
 task wrapper(type: Wrapper) {
