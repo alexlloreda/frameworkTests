@@ -1,4 +1,13 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath('se.transmode.gradle:gradle-docker:1.+')
+    }
+}
 apply plugin: 'application'
+apply plugin: 'docker'
 
 repositories {
     jcenter()
@@ -7,14 +16,15 @@ repositories {
 dependencies {
   compile "io.dropwizard:dropwizard-core:${dropwizard_version}"
     compile "io.dropwizard:dropwizard-jdbi:${dropwizard_version}"
+    compile "postgresql:postgresql:9.+"
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.14'
+    gradleVersion = '2.14.1'
 }
 
 mainClassName = "com.alex.listings.HelloWorldApplication"
 
 run {
-    args 'server', 'example.yml'
+    args 'server', 'src/dist/config/example.yml'
 }

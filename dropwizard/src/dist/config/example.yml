@@ -10,7 +10,7 @@ database:
   password: mysecretpassword
 
   # the JDBC URL
-  url: jdbc:postgresql://192.168.99.100/db-prod
+  url: jdbc:postgresql://alexhost/postgres
 
   # any properties specific to your JDBC driver:
   # properties:
