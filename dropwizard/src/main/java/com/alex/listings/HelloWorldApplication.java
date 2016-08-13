@@ -35,7 +35,7 @@ public class HelloWorldApplication extends Application<HelloWorldConfig> {
     @Override
     public void run(HelloWorldConfig config, Environment env) {
         final DBIFactory factory = new DBIFactory();
-        final DBI jdbi = factory.build(env, config.getDataSourceFactory(), "postgresql");
+        final DBI jdbi = factory.build(env, config.getDataSourceFactory(), "alex_db");
         final ListingDAO listingDAO = jdbi.onDemand(ListingDAO.class);
 
 
