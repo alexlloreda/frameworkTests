@@ -1,0 +1,6 @@
+#/bin/bash
+./gradlew tasks
+mkdir -p build/docker
+cp build/distributions/dropwizard-1.0.tar build/docker
+cp src/main/docker/Dockerfile build/docker
+docker build -t alex/dropwizard:1.0 build/docker
