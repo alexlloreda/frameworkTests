@@ -1,16 +1,12 @@
 apply plugin: 'application'
 
-buildscript {
-    repositories { jcenter() }
-    dependencies { classpath('se.transmode.gradle:gradle-docker:1.+') }
-}
-
 repositories { jcenter() }
 
 dependencies {
     compile "io.dropwizard:dropwizard-core:${dropwizard_version}"
     compile "io.dropwizard:dropwizard-jdbi:${dropwizard_version}"
     compile "com.h2database:h2:1.4.+"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.+"
 }
 
 task wrapper(type: Wrapper) { gradleVersion = '2.14.1' }

@@ -1,6 +1,7 @@
 package com.alex.listings;
 
 import com.alex.listings.db.ListingDAO;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import io.dropwizard.Application;
 import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
@@ -34,6 +35,9 @@ public class HelloWorldApplication extends Application<HelloWorldConfig> {
      */
     @Override
     public void run(HelloWorldConfig config, Environment env) {
+        // Jackson config
+        env.getObjectMapper().registerModule(new Jdk8Module());
+
         final DBIFactory factory = new DBIFactory();
         final DBI jdbi = factory.build(env, config.getDataSourceFactory(), "alex_db");
         final ListingDAO listingDAO = jdbi.onDemand(ListingDAO.class);

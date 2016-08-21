@@ -1,12 +1,16 @@
 package com.alex.listings;
 
 import com.alex.listings.db.ListingDAO;
+import com.alex.listings.entities.Listing;
+import com.alex.listings.entities.Saying;
+import com.alex.listings.entities.Surface;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.base.Optional;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -24,6 +28,9 @@ public class HelloWorldResource {
         this.listingDAO = listingDAO;
         this.template = template;
         this.defaultName = defaultName;
+
+        listingDAO.deleteListingsTable();
+        listingDAO.createListingsTable();
     }
 
     @GET
@@ -41,7 +48,14 @@ public class HelloWorldResource {
     }
 
     @POST
-    public void createListing(Listing listing) {
-        listingDAO.addListing(listing.getId(), listing.getAddress());
+    public void createListing(Listing l) {
+        listingDAO.addListing(UUID.randomUUID().toString(),
+                l.getAddress(),
+                l.getPostcode(),
+                l.getState(),
+                l.getBedrooms(),
+                l.getBathrooms(),
+                l.getFloorSize().map(s -> s.getAmount()).orElse(0),
+                l.getLandSize().map(s -> s.getAmount()).orElse(0));
     }
 }
