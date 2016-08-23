@@ -43,7 +43,7 @@ public class HelloWorldApplication extends Application<HelloWorldConfig> {
         final ListingDAO listingDAO = jdbi.onDemand(ListingDAO.class);
 
 
-        env.jersey().register(new HelloWorldResource(listingDAO, config.getTemplate(), config.getDefaultName()));
+        env.jersey().register(new HelloWorldResource(listingDAO, config.getTemplate(), config.getDefaultName(), jdbi));
         env.healthChecks().register("template", new TemplateHealthCheck(config.getTemplate()));
     }
 

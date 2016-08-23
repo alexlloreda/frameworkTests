@@ -23,7 +23,7 @@ public interface ListingDAO {
             "landSize int)")
     void createListingsTable();
 
-    @SqlUpdate("insert into listings (id, address, postcode, state, bedrooms, bathrooms, floorSize, landSize), " +
+    @SqlUpdate("insert into listings (id, address, postcode, state, bedrooms, bathrooms, floorSize, landSize) " +
             "values (:id, :address, :postcode, :state, :bedrooms, :bathrooms, :floorSize, :landSize)")
     void addListing(@Bind("id") String id,
                     @Bind("address") String address,
@@ -34,7 +34,7 @@ public interface ListingDAO {
                     @Bind("floorSize") int floorSize,
                     @Bind("landSize") int landSize);
 
-    @SqlQuery("select id, address from listings")
+    @SqlQuery("select * from listings")
     List<Listing> getListings();
 
     @SqlUpdate("drop table listings")
