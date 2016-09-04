@@ -1,4 +1,4 @@
-package com.alex.listings;
+package com.alex.listings.entities;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

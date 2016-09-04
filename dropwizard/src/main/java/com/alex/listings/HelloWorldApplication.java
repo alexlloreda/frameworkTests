@@ -1,7 +1,10 @@
 package com.alex.listings;
 
 import com.alex.listings.db.ListingDAO;
+import com.alex.listings.entities.Listing;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import io.dropwizard.Application;
+import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -34,12 +37,15 @@ public class HelloWorldApplication extends Application<HelloWorldConfig> {
      */
     @Override
     public void run(HelloWorldConfig config, Environment env) {
+        // Jackson config
+        env.getObjectMapper().registerModule(new Jdk8Module());
+
         final DBIFactory factory = new DBIFactory();
-        final DBI jdbi = factory.build(env, config.getDataSourceFactory(), "postgresql");
+        final DBI jdbi = factory.build(env, config.getDataSourceFactory(), "alex_db");
         final ListingDAO listingDAO = jdbi.onDemand(ListingDAO.class);
 
 
-        env.jersey().register(new HelloWorldResource(listingDAO, config.getTemplate(), config.getDefaultName()));
+        env.jersey().register(new HelloWorldResource(listingDAO, config.getTemplate(), config.getDefaultName(), jdbi));
         env.healthChecks().register("template", new TemplateHealthCheck(config.getTemplate()));
     }
 

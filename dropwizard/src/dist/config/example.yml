@@ -3,14 +3,14 @@ defaultName: Stranger
 
 database:
   # the name of your JDBC driver
-  driverClass: org.postgresql.Driver
+  driverClass: org.h2.Driver
   # the username
-  user: postgres
+  user: alexuser
   # the password
-  password: mysecretpassword
+  password: alexpwd
 
   # the JDBC URL
-  url: jdbc:postgresql://alexhost/postgres
+  url: jdbc:h2:~/alex_db
 
   # any properties specific to your JDBC driver:
   # properties:

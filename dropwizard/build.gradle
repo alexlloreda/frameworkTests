@@ -1,37 +1,25 @@
 apply plugin: 'application'
-apply plugin: 'docker'
-
-buildscript {
-    repositories { jcenter() }
-    dependencies { classpath('se.transmode.gradle:gradle-docker:1.+') }
-}
 
 repositories { jcenter() }
 
 dependencies {
     compile "io.dropwizard:dropwizard-core:${dropwizard_version}"
     compile "io.dropwizard:dropwizard-jdbi:${dropwizard_version}"
-    compile "postgresql:postgresql:9.+"
+    compile "com.h2database:h2:1.4.+"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.+"
+
+    testCompile "junit:junit:4.12"
+    testCompile "org.hamcrest:hamcrest-all:1.+"
+    testCompile "org.mockito:mockito-all:1.10.+"
 }
 
-task wrapper(type: Wrapper) { gradleVersion = '2.14.1' }
+task wrapper(type: Wrapper) { gradleVersion = '3.0.0' }
 
 sourceCompatibility = 1.8
 group = 'alex'
 version = '1.0'
 mainClassName = 'com.alex.listings.HelloWorldApplication'
-//applicationDefaultJvmArgs = ["server", "/${applicationName}-${version}/config/example.yml"]
+
 run {
     args 'server', 'src/dist/config/example.yml'
-}
-
-docker {
-    baseImage "java:8-jre"
-    ext.appDir = "${applicationName}-${version}"
-//    entryPoint("/${appDir}/bin/${applicationName}", "server", "/${appDir}/dist/example.yml")
-}
-
-distDocker {
-
-    //dryRun = true
 }
