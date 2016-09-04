@@ -7,9 +7,13 @@ dependencies {
     compile "io.dropwizard:dropwizard-jdbi:${dropwizard_version}"
     compile "com.h2database:h2:1.4.+"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.+"
+
+    testCompile "junit:junit:4.12"
+    testCompile "org.hamcrest:hamcrest-all:1.+"
+    testCompile "org.mockito:mockito-all:1.10.+"
 }
 
-task wrapper(type: Wrapper) { gradleVersion = '2.14.1' }
+task wrapper(type: Wrapper) { gradleVersion = '3.0.0' }
 
 sourceCompatibility = 1.8
 group = 'alex'

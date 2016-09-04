@@ -1,8 +1,10 @@
 package com.alex.listings;
 
 import com.alex.listings.db.ListingDAO;
+import com.alex.listings.entities.Listing;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import io.dropwizard.Application;
+import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;

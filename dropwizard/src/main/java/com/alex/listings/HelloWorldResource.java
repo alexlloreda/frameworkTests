@@ -2,6 +2,7 @@ package com.alex.listings;
 
 import com.alex.listings.db.ListingDAO;
 import com.alex.listings.db.ListingMapper;
+import com.alex.listings.db.QueryCriteria;
 import com.alex.listings.entities.Listing;
 import com.alex.listings.entities.Saying;
 import com.alex.listings.entities.Surface;
@@ -12,11 +13,10 @@ import org.skife.jdbi.v2.Handle;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.Collectors;
 
 /**
  * Something else
@@ -25,11 +25,21 @@ import java.util.stream.Collectors;
 @Path("/hello-world")
 @Produces(MediaType.APPLICATION_JSON)
 public class HelloWorldResource {
+    private static final String LISTINGS_TABLE = "listings";
+    private static final String POSTCODE = "postcode";
+    private static final String STATE = "state";
+
+    private final List<String> listingsFields = Arrays.asList(
+            "address", POSTCODE, STATE, "bedrooms", "bathrooms"
+    );
+
     private final String template;
     private final String defaultName;
     private final AtomicLong counter = new AtomicLong();
     private final ListingDAO listingDAO;
     private final DBI jdbi;
+
+
 
     public HelloWorldResource(ListingDAO listingDAO, String template, String defaultName, DBI jdbi) {
         this.listingDAO = listingDAO;
@@ -72,14 +82,12 @@ public class HelloWorldResource {
     public List<Listing> getListingsWithFilter(
             @QueryParam("postcode") List<String> postcodes,
             @QueryParam("not-postcode") List<String> notPostcodes) {
-        Handle h = jdbi.open();
-        try {
-            StringBuilder query = new StringBuilder("select * from listings where postcode in (");
-            query.append(postcodes.stream().collect(Collectors.joining(", ")));
-            query.append(")");
+        try (Handle h = jdbi.open()) {
+            QueryCriteria queryBuilder = new QueryCriteria(LISTINGS_TABLE, listingsFields);
+            if (!postcodes.isEmpty()) {
+                queryBuilder.containsAny(POSTCODE, postcodes);
+            }
             return h.createQuery(query.toString()).map(new ListingMapper()).list();
-        } finally {
-            h.close();
         }
     }
 }
